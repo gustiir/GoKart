@@ -155,7 +155,6 @@ MonoBehaviour:
   SphereRigidbody: {fileID: 953482561}
   ForwardAcceleration: 8
   ReverseAcceleration: 4
-  MaxSpeed: 50
   TurnStrength: 180
   GravityForce: 10
   DragOnGround: 3
@@ -178,6 +177,7 @@ Transform:
   - {fileID: 973421381}
   - {fileID: 953482560}
   - {fileID: 1271411243}
+  - {fileID: 1494500654}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 154525808}
   - component: {fileID: 154525807}
   - component: {fileID: 154525806}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -564,6 +565,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 49.628, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c83ee60c96aae154ab84d8c258a791e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1494500654}
+  PositionSmoothSpeed: 10
+  RotationSmoothSpeed: 10
 --- !u!1 &973421380
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,6 +615,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d0b5a215017a8344db12c852652be5d4, type: 3}
   m_PrefabInstance: {fileID: 2089594305}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1494500653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1494500654}
+  m_Layer: 7
+  m_Name: CameraTargetPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1494500654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494500653}
+  m_LocalRotation: {x: 0.08715578, y: 0, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: 0, y: 0.8, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 80471194}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
 --- !u!1001 &2089594305
 PrefabInstance:
   m_ObjectHideFlags: 0
