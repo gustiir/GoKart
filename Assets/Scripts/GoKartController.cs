@@ -5,6 +5,7 @@ using UnityEngine;
 public class GoKartController : MonoBehaviour
 {
     //TODO:
+    //Change car to track size ratio (about 3 times current size)
     // *Tweak camera position & rotation, think about adding tilt when handbrake or turning
     //Rework car feeling, add handbrake, drift, speed after acceleration etc.
     //Make wheels turn and rotate (Simulate shocks, rotate car when turning)
