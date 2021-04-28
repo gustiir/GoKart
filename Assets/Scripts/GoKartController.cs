@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GoKartController : MonoBehaviour
 {
     //TODO:
-    //Change car to track size ratio (about 3 times current size)
     // *Tweak camera position & rotation, think about adding tilt when handbrake or turning
     //Rework car feeling, add handbrake, drift, speed after acceleration etc.
     //Make wheels turn and rotate (Simulate shocks, rotate car when turning)
@@ -14,6 +14,7 @@ public class GoKartController : MonoBehaviour
 
     //DONE:
     //Make quick track
+    //Change car to track size ratio (about 3 times current size)
 
     [SerializeField]
     private Rigidbody SphereRigidbody;
@@ -30,7 +31,10 @@ public class GoKartController : MonoBehaviour
 
     private float speedInput, turnInput;
 
-    private bool breakInput;
+    private bool handBreakInput;
+
+    private float speed = 0f;
+
 
     private const float accelerationMultiplier = 1000f;
     private const float forceMultiplier = 100f;
@@ -48,6 +52,11 @@ public class GoKartController : MonoBehaviour
     private Vector3 currentPosition;
     [SerializeField]
     private Vector3 previousPosition;
+
+
+    //Testing
+    Vector3 moveDirection;
+    Vector3 forceDirection;
 
     void Start()
     {
@@ -67,13 +76,17 @@ public class GoKartController : MonoBehaviour
 
         Vector3 offsetSphereTransform = SphereRigidbody.transform.position - new Vector3(0, 0.45f, 0);
         transform.position = offsetSphereTransform;
+
+        //Movement Direction
+        Debug.DrawLine(transform.position, moveDirection * speed, Color.red);
+        //Force Direction
+        Debug.DrawLine(transform.position, forceDirection * speedInput, Color.blue);
     }
 
     private void FixedUpdate()
     {
         GroundCheck();
         MoveCheck();
-
     }
 
     private void HandleInput()
@@ -92,9 +105,11 @@ public class GoKartController : MonoBehaviour
 
         if (Input.GetKey("space"))
         {
-            breakInput = true;
+            handBreakInput = true;
+
         }
-        else breakInput = false;
+        else
+            handBreakInput = false;
     }
 
 
@@ -114,17 +129,44 @@ public class GoKartController : MonoBehaviour
         {
             SphereRigidbody.drag = DragOnGround;
 
-            Vector3 forceDirection = Vector3.Cross(transform.right, hit.normal).normalized;
+            forceDirection = Vector3.Cross(transform.right, hit.normal).normalized;
+
+            if (handBreakInput)
+            {
+                //FIRST ITERATION
+                //SphereRigidbody.drag = 1f;
+                //SphereRigidbody.AddForce(-forceDirection * speedInput);
+
+
+                //SECOND ITERATION
+                //float driftForce = Vector3.Dot(SphereRigidbody.velocity, forceDirection) * 2.0f;
+                //Vector3 relativeForce = SphereRigidbody.velocity * driftForce;
+
+                //SphereRigidbody.AddForce(relativeForce);
+
+
+                //THIRD ITERATION
+                //get the direction the kart is moving in
+                //moveDirection = SphereRigidbody.velocity.normalized;
+
+                //keep force in that direction no matter what the steering angle is
+                //SphereRigidbody.drag = 1f;
+                //SphereRigidbody.AddForce(moveDirection * speed);
+
+                //accept regular force and steering but to a limited degree
+
+
+                //FORTH ITERATION
+                moveDirection = SphereRigidbody.velocity.normalized;
+                float steeringDeviation = Vector3.Dot(forceDirection, moveDirection);
+                Vector3 relativeForce = moveDirection * (steeringDeviation);
+                SphereRigidbody.AddForce(relativeForce * accelerationMultiplier);
+
+            }
 
             if (Mathf.Abs(speedInput) > 0)
             {
                 SphereRigidbody.AddForce(forceDirection * speedInput);
-            }
-            
-            if (breakInput)
-            {
-                SphereRigidbody.drag = 1f;
-                SphereRigidbody.AddForce(-forceDirection * speedInput);
             }
         }
         else
@@ -132,14 +174,13 @@ public class GoKartController : MonoBehaviour
             SphereRigidbody.drag = 0.1f;
             SphereRigidbody.AddForce(Vector3.up * -GravityForce * forceMultiplier);
         }
-
-
     }
 
     public bool MoveCheck()
     {
         currentPosition = transform.position;
-        float speed = (previousPosition - currentPosition).sqrMagnitude;
+        //speed = (previousPosition - currentPosition).sqrMagnitude;
+        speed = SphereRigidbody.velocity.sqrMagnitude;
 
         if ((previousPosition - currentPosition).sqrMagnitude > 0.001f)
         {
